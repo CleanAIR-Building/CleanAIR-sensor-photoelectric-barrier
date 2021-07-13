@@ -6,7 +6,7 @@ PhotoelectricBarrier::PhotoelectricBarrier(bool isEntrance)
     Serial.println("PhotoelectricBarrier setup now...");
     this->isEntrance = isEntrance;
 
-    pinToRead = D0;
+    pinToRead = D1;
     lastState = PhotoelectricBarrier::STATE::NOT_RECOGNIZED;
     pinMode(pinToRead, INPUT);
 
@@ -45,11 +45,11 @@ CleanAIR::MessageJson PhotoelectricBarrier::CreateMessage(const PhotoelectricBar
     message["sensor"] = CleanAIR::GetConfig().mqttClientName.c_str();
     if (this->isEntrance)
     {
-        message["barrier"] = (newState == PhotoelectricBarrier::STATE::RECOGNIZED) ? "1" : "0";
+        message["count"] = (newState == PhotoelectricBarrier::STATE::RECOGNIZED) ? 1 : 0;
     }
     else
     {
-        message["barrier"] = (newState == PhotoelectricBarrier::STATE::RECOGNIZED) ? "-1" : "0";
+        message["count"] = (newState == PhotoelectricBarrier::STATE::RECOGNIZED) ? -1 : 0;
     }
 
     return message;

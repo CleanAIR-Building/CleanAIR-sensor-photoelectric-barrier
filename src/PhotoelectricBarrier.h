@@ -9,11 +9,12 @@ public:
         RECOGNIZED,
         NOT_RECOGNIZED
     };
-    PhotoelectricBarrier();
+    PhotoelectricBarrier(bool isEntrance);
     virtual void Loop() override;
 
 private:
     int pinToRead;
+    bool isEntrance;
     STATE lastState;
     CleanAIR::MessageJson CreateMessage(STATE newState);
 };

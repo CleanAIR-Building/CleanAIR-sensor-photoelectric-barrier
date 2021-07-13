@@ -3,7 +3,7 @@
 #include "PhotoelectricBarrier.h"
 #include "Definitions.h"
 
-PhotoelectricBarrier photoelectricBarrier;
+PhotoelectricBarrier photoelectricBarrier(true);
 
 void setup()
 {

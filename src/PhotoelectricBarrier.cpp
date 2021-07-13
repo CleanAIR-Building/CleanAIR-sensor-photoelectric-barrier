@@ -1,9 +1,10 @@
 #include "PhotoelectricBarrier.h"
 #include "CleanAIRDevice.h"
 
-PhotoelectricBarrier::PhotoelectricBarrier()
+PhotoelectricBarrier::PhotoelectricBarrier(bool isEntrance)
 {
     Serial.println("PhotoelectricBarrier setup now...");
+    this->isEntrance = isEntrance;
 
     pinToRead = D0;
     lastState = PhotoelectricBarrier::STATE::NOT_RECOGNIZED;
@@ -42,6 +43,14 @@ CleanAIR::MessageJson PhotoelectricBarrier::CreateMessage(const PhotoelectricBar
 {
     CleanAIR::MessageJson message;
     message["sensor"] = CleanAIR::GetConfig().mqttClientName.c_str();
-    message["barrier"] = (newState == PhotoelectricBarrier::STATE::RECOGNIZED) ? "1" : "0";
+    if (this->isEntrance)
+    {
+        message["barrier"] = (newState == PhotoelectricBarrier::STATE::RECOGNIZED) ? "1" : "0";
+    }
+    else
+    {
+        message["barrier"] = (newState == PhotoelectricBarrier::STATE::RECOGNIZED) ? "-1" : "0";
+    }
+
     return message;
 }
